@@ -61,7 +61,7 @@ class Products with ChangeNotifier {
     final filterString =
         filterByUser ? 'orderBy="creatorId"&equalTo="$userId"' : '';
     var url = Uri.parse(
-        'https://my-shop-1c8d5-default-rtdb.asia-southeast1.firebasedatabase.app/products.json?auth=$authToken');
+        'https://my-shop-1c8d5-default-rtdb.asia-southeast1.firebasedatabase.app/products.json?auth=$authToken&$filterString');
     try {
       final res = await http.get(url);
       final List<Product> loadedProducts = [];
