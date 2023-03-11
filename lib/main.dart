@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/providers/auth.dart';
+import 'package:flutter_complete_guide/providers/categories.dart';
 import 'package:flutter_complete_guide/screens/auth_screen.dart';
 import 'package:flutter_complete_guide/screens/edit_product_screen.dart';
 import 'package:flutter_complete_guide/screens/products_overview_screen.dart';
@@ -38,7 +39,11 @@ class MyApp extends StatelessWidget {
               Orders(ctx.read<Auth>().token, ctx.read<Auth>().userId, []),
           update: (ctx, auth, previousOrders) => Orders(auth.token, auth.userId,
               previousOrders == null ? [] : previousOrders.orders),
-        )
+        ),
+        ChangeNotifierProxyProvider<Auth, Categories>(
+          create: (ctx) => Categories(ctx.read<Auth>().token),
+          update: (ctx, auth, previousCategories) => Categories(auth.token),
+        ),
       ],
       child: Consumer<Auth>(
         builder: (ctx, auth, _) => MaterialApp(
@@ -50,6 +55,7 @@ class MyApp extends StatelessWidget {
                 .copyWith(secondary: Colors.deepOrange),
           ),
           home: auth.isAuth ? ProductsOverviewScreen() : AuthScreen(),
+          // home: ProductsOverviewScreen(),
           routes: {
             ProductsOverviewScreen.routeName: (ctx) => ProductsOverviewScreen(),
             ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
